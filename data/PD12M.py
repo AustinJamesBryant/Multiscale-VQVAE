@@ -8,6 +8,8 @@ from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 from datasets import load_dataset
 
+Image.MAX_IMAGE_PIXELS = None
+
 # Example transform pipeline
 transform = transforms.Compose([
     transforms.RandomCrop(256),
