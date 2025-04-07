@@ -14,7 +14,7 @@ def main():
     args = parser.parse_args()
 
     # Static settings
-    batch_size = 32
+    batch_size = 16
     num_workers = 32
     every_n_train_steps = 1000
 
