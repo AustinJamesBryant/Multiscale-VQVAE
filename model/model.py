@@ -95,7 +95,6 @@ class LitMultiscaleVQVAE(pl.LightningModule):
         # For training we use a dynamic patch scale, for validation a fixed one.
         self.fixed_patch_nums = patch_nums
 
-    # Modified
     def gen_curr_patch_nums(self):
         max_patch = self.fixed_patch_nums[-1]
         # With 5% probability, use the fixed patch numbers directly.
@@ -123,12 +122,11 @@ class LitMultiscaleVQVAE(pl.LightningModule):
         return curr_patch_nums
 
     def training_step(self, batch, batch_idx):
-        # print(batch)
         x, _ = batch
         curr_patch_nums = self.gen_curr_patch_nums()
         recons, diff_list = self.vqvae(x, v_patch_nums=curr_patch_nums)
         
-        # Use the input resolution as target size
+        # Use the input resolution as target size.
         target_size = x.shape[-2:]
         recon_loss = 0.0
         for recon in recons:
@@ -148,13 +146,20 @@ class LitMultiscaleVQVAE(pl.LightningModule):
         quant_loss = sum(processed_diff) / len(processed_diff) if processed_diff else torch.tensor(0.0, device=x.device)
         
         loss = recon_loss + quant_loss
+
+        # Log losses
         self.log("train_loss", loss, prog_bar=True)
         self.log("train_recon_loss", recon_loss, prog_bar=True)
         self.log("train_quant_loss", quant_loss, prog_bar=True)
+        
+        # Log current learning rate to the progress bar
+        # Access the learning rate from the optimizer's parameter group.
+        current_lr = self.trainer.optimizers[0].param_groups[0]['lr']
+        self.log("learning_rate", current_lr, prog_bar=True)
+        
         return loss
 
     def validation_step(self, batch, batch_idx):
-        # print(batch)
         x, _ = batch
         recons, diff_list = self.vqvae(x, v_patch_nums=self.fixed_patch_nums)
         target_size = x.shape[-2:]

@@ -29,8 +29,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[1, 1, 2, 2, 4],
-                decoder_ch_mult=[1, 1, 2, 2, 4],
+                encoder_ch_mult=[1, 2, 2, 4],
+                decoder_ch_mult=[1, 2, 2, 4],
                 z_channels=32,
                 dropout_p=0.0,
             )
@@ -44,8 +44,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[1, 1, 2, 2, 4],
-                decoder_ch_mult=[1, 1, 2, 2, 4],
+                encoder_ch_mult=[1, 2, 2, 4],
+                decoder_ch_mult=[1, 2, 2, 4],
                 z_channels=64,
                 dropout_p=0.0,
             )
@@ -59,8 +59,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[1, 1, 2, 2, 4],
-                decoder_ch_mult=[1, 1, 2, 2, 4],
+                encoder_ch_mult=[1, 2, 2, 4],
+                decoder_ch_mult=[1, 2, 2, 4],
                 z_channels=128,
                 dropout_p=0.0,
             )
@@ -74,8 +74,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[1, 1, 2, 2, 4],
-                decoder_ch_mult=[1, 1, 2, 2, 4],
+                encoder_ch_mult=[1, 2, 2, 4],
+                decoder_ch_mult=[1, 2, 2, 4],
                 z_channels=256,
                 dropout_p=0.0,
             )
@@ -89,8 +89,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[1, 2, 2, 4, 4],
-                decoder_ch_mult=[1, 2, 2, 4, 4],
+                encoder_ch_mult=[2, 2, 4, 4],
+                decoder_ch_mult=[2, 2, 4, 4],
                 z_channels=32,
                 dropout_p=0.0,
             )
@@ -104,8 +104,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[1, 2, 2, 4, 4],
-                decoder_ch_mult=[1, 2, 2, 4, 4],
+                encoder_ch_mult=[2, 2, 4, 4],
+                decoder_ch_mult=[2, 2, 4, 4],
                 z_channels=64,
                 dropout_p=0.0,
             )
@@ -119,8 +119,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[1, 2, 2, 4, 4],
-                decoder_ch_mult=[1, 2, 2, 4, 4],
+                encoder_ch_mult=[2, 2, 4, 4],
+                decoder_ch_mult=[2, 2, 4, 4],
                 z_channels=128,
                 dropout_p=0.0,
             )
@@ -134,8 +134,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[1, 2, 2, 4, 4],
-                decoder_ch_mult=[1, 2, 2, 4, 4],
+                encoder_ch_mult=[2, 2, 4, 4],
+                decoder_ch_mult=[2, 2, 4, 4],
                 z_channels=256,
                 dropout_p=0.0,
             )
@@ -149,8 +149,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[2, 2, 4, 4, 8],
-                decoder_ch_mult=[2, 2, 4, 4, 8],
+                encoder_ch_mult=[2, 4, 4, 8],
+                decoder_ch_mult=[2, 4, 4, 8],
                 z_channels=32,
                 dropout_p=0.0,
             )
@@ -166,8 +166,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[2, 2, 4, 4, 8],
-                decoder_ch_mult=[2, 2, 4, 4, 8],
+                encoder_ch_mult=[2, 4, 4, 8],
+                decoder_ch_mult=[2, 4, 4, 8],
                 z_channels=64,
                 dropout_p=0.0,
             )
@@ -183,8 +183,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[2, 2, 4, 4, 8],
-                decoder_ch_mult=[2, 2, 4, 4, 8],
+                encoder_ch_mult=[2, 4, 4, 8],
+                decoder_ch_mult=[2, 4, 4, 8],
                 z_channels=128,
                 dropout_p=0.0,
             )
@@ -200,8 +200,8 @@ def main():
                 codebook_show_usage=True,
                 commit_loss_beta=0.25,
                 entropy_loss_ratio=0.0,
-                encoder_ch_mult=[2, 2, 4, 4, 8],
-                decoder_ch_mult=[2, 2, 4, 4, 8],
+                encoder_ch_mult=[2, 4, 4, 8],
+                decoder_ch_mult=[2, 4, 4, 8],
                 z_channels=256,
                 dropout_p=0.0,
             )
@@ -223,10 +223,10 @@ def main():
         learning_rate=1e-4,
     )
 
-    logger = TensorBoardLogger(".tensorboard", name="multiscale_vqvae")
+    logger = TensorBoardLogger(".tensorboard", name="multiscale_vqvae_q8")
 
     checkpoint_callback = ModelCheckpoint(
-        dirpath="checkpoints",
+        dirpath="checkpoints_q8",
         filename="model-{epoch:02d}-{step:08d}",
         every_n_train_steps=every_n_train_steps,
         save_top_k=-1
