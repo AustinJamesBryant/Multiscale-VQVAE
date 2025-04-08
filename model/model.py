@@ -95,62 +95,68 @@ class LitMultiscaleVQVAE(pl.LightningModule):
         # For training we use a dynamic patch scale, for validation a fixed one.
         self.fixed_patch_nums = patch_nums
 
-    def gen_curr_patch_nums(self, ):
-        if random.random() < 0.05:
-            curr_patch_nums = [1, 2, 3, 4, 5, 6, 8, 10, 13, 16]
-        else:
-            random_numbers = random.sample(range(3, 11), 5) + random.sample(range(11, 16), 2)
-            # random_numbers = random.sample(range(2, 16), 8) 
-            random_numbers.sort()
-            curr_patch_nums = [1, 2] + random_numbers + [16]
+    # def gen_curr_patch_nums(self, ):
+    #     if random.random() < 0.05:
+    #         curr_patch_nums = [1, 2, 3, 4, 5, 6, 8, 10, 13, 16]
+    #     else:
+    #         random_numbers = random.sample(range(3, 11), 5) + random.sample(range(11, 16), 2)
+    #         # random_numbers = random.sample(range(2, 16), 8) 
+    #         random_numbers.sort()
+    #         curr_patch_nums = [1, 2] + random_numbers + [16]
 
-        # drop scales    
-        x = random.random()
-        if x > 0.9:
-            drop_index = random.choice(range(2, len(curr_patch_nums) - 1))
-            curr_patch_nums.pop(drop_index)
-        if x > 0.95:
-            drop_index = random.choice(range(2, len(curr_patch_nums) - 1))
-            curr_patch_nums.pop(drop_index)
-        if x > 0.98:
-            drop_index = random.choice(range(2, len(curr_patch_nums) - 1))
-            curr_patch_nums.pop(drop_index)
-        if x > 0.99:
-            drop_index = random.choice(range(2, len(curr_patch_nums) - 1))
-            curr_patch_nums.pop(drop_index)
+    #     # drop scales    
+    #     x = random.random()
+    #     if x > 0.9:
+    #         drop_index = random.choice(range(2, len(curr_patch_nums) - 1))
+    #         curr_patch_nums.pop(drop_index)
+    #     if x > 0.95:
+    #         drop_index = random.choice(range(2, len(curr_patch_nums) - 1))
+    #         curr_patch_nums.pop(drop_index)
+    #     if x > 0.98:
+    #         drop_index = random.choice(range(2, len(curr_patch_nums) - 1))
+    #         curr_patch_nums.pop(drop_index)
+    #     if x > 0.99:
+    #         drop_index = random.choice(range(2, len(curr_patch_nums) - 1))
+    #         curr_patch_nums.pop(drop_index)
 
+    #     total_lens = sum(pn ** 2 for pn in curr_patch_nums)
+    #     while total_lens > 680:
+    #         drop_index = random.choice(range(len(curr_patch_nums)-4, len(curr_patch_nums)))
+    #         curr_patch_nums.pop(drop_index)
+    #         total_lens = sum(pn ** 2 for pn in curr_patch_nums)
+    #     return curr_patch_nums
+
+    def gen_curr_patch_nums(self):
+        max_patch = self.fixed_patch_nums[-1]
+        
+        # Always include 1, 2, and max_patch.
+        # Sample 7 additional unique numbers from 3 to max_patch-1.
+        if max_patch < 3:
+            raise ValueError("max_patch must be at least 3 to allow for additional levels.")
+        
+        mid_candidates = list(range(3, max_patch))
+        if len(mid_candidates) < 7:
+            raise ValueError("Not enough values between 3 and max_patch-1 to sample 7 unique levels.")
+        
+        extra_patches = random.sample(mid_candidates, 7)
+        curr_patch_nums = sorted([1, 2] + extra_patches + [max_patch])
+        
+        # Calculate the threshold as 90% of the total fixed patch sums (sum of squares)
+        fixed_threshold = sum(pn ** 2 for pn in self.fixed_patch_nums) * 0.9
         total_lens = sum(pn ** 2 for pn in curr_patch_nums)
-        while total_lens > 680:
-            drop_index = random.choice(range(len(curr_patch_nums)-4, len(curr_patch_nums)))
+        
+        # Randomly drop one element at a time from the middle
+        # (always keeping the first two elements and the last element)
+        while total_lens > fixed_threshold and len(curr_patch_nums) > 3:
+            # Define candidate indices: skip the first two and the last element.
+            candidate_indices = list(range(2, len(curr_patch_nums) - 1))
+            if not candidate_indices:
+                break  # No middle element to remove.
+            drop_index = random.choice(candidate_indices)
             curr_patch_nums.pop(drop_index)
             total_lens = sum(pn ** 2 for pn in curr_patch_nums)
+        
         return curr_patch_nums
-
-    # def gen_curr_patch_nums(self):
-    #     max_patch = self.fixed_patch_nums[-1]
-    #     # With 5% probability, use the fixed patch numbers directly.
-    #     if random.random() < 0.05:
-    #         curr_patch_nums = list(self.fixed_patch_nums)
-    #     else:
-    #         # Randomly sample exactly len(self.fixed_patch_nums) numbers from 1 to max_patch (inclusive)
-    #         curr_patch_nums = sorted(random.sample(range(1, max_patch + 1), len(self.fixed_patch_nums)))
-        
-    #     # Calculate the threshold as 80% of the total fixed patch sums (sum of squares)
-    #     fixed_threshold = sum(pn ** 2 for pn in self.fixed_patch_nums) * 0.8
-        
-    #     # Enforce a constraint on the overall size
-    #     total_lens = sum(pn ** 2 for pn in curr_patch_nums)
-    #     while total_lens > fixed_threshold and len(curr_patch_nums) > 0:
-    #         # Remove one element (e.g., from the upper half) to reduce the total length.
-    #         drop_range = range(max(2, len(curr_patch_nums) - 2), len(curr_patch_nums))
-    #         if drop_range:
-    #             drop_index = random.choice(list(drop_range))
-    #             curr_patch_nums.pop(drop_index)
-    #         else:
-    #             break  # or handle accordingly if the list is too short
-    #         total_lens = sum(pn ** 2 for pn in curr_patch_nums)
-        
-    #     return curr_patch_nums
 
     def training_step(self, batch, batch_idx):
         x, _ = batch

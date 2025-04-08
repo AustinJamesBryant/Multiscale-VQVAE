@@ -34,7 +34,7 @@ def main():
                 z_channels=32,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 1:
             # Small 2
             model_args = ModelArgs(
@@ -49,7 +49,7 @@ def main():
                 z_channels=64,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 2:
             # Small 3
             model_args = ModelArgs(
@@ -64,7 +64,7 @@ def main():
                 z_channels=128,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 3:
             # Small 4
             model_args = ModelArgs(
@@ -79,7 +79,7 @@ def main():
                 z_channels=256,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 4:
             # Medium 1
             model_args = ModelArgs(
@@ -94,7 +94,7 @@ def main():
                 z_channels=32,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 5:
             # Medium 2
             model_args = ModelArgs(
@@ -109,7 +109,7 @@ def main():
                 z_channels=64,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 6:
             # Medium 3
             model_args = ModelArgs(
@@ -124,7 +124,7 @@ def main():
                 z_channels=128,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 7:
             # Medium 4
             model_args = ModelArgs(
@@ -139,7 +139,7 @@ def main():
                 z_channels=256,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 8:
             # Large 1
             model_args = ModelArgs(
@@ -154,7 +154,7 @@ def main():
                 z_channels=32,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
             batch_size = 8
             every_n_train_steps = 2000
         case 9:
@@ -171,7 +171,7 @@ def main():
                 z_channels=64,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
             batch_size = 8
             every_n_train_steps = 2000
         case 10:
@@ -188,7 +188,7 @@ def main():
                 z_channels=128,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
             batch_size = 8
             every_n_train_steps = 2000
         case 11:
@@ -205,7 +205,7 @@ def main():
                 z_channels=256,
                 dropout_p=0.0,
             )
-            patch_nums = (1, 2, 4, 8, 16, 32)
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
             batch_size = 8
             every_n_train_steps = 2000
         case _:
