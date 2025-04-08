@@ -155,6 +155,8 @@ def main():
                 dropout_p=0.0,
             )
             patch_nums = (1, 2, 4, 8, 16)
+            batch_size = 8
+            every_n_train_steps = 2000
         case 9:
             # Large 2
             model_args = ModelArgs(
@@ -170,6 +172,8 @@ def main():
                 dropout_p=0.0,
             )
             patch_nums = (1, 2, 4, 8, 16)
+            batch_size = 8
+            every_n_train_steps = 2000
         case 10:
             # Large 3
             model_args = ModelArgs(
@@ -185,6 +189,8 @@ def main():
                 dropout_p=0.0,
             )
             patch_nums = (1, 2, 4, 8, 16)
+            batch_size = 8
+            every_n_train_steps = 2000
         case 11:
             # Large 4
             model_args = ModelArgs(
@@ -200,6 +206,8 @@ def main():
                 dropout_p=0.0,
             )
             patch_nums = (1, 2, 4, 8, 16)
+            batch_size = 8
+            every_n_train_steps = 2000
         case _:
             print("Invalid config argument!")
             exit(1)
