@@ -141,8 +141,8 @@ class LitMultiscaleVQVAE(pl.LightningModule):
         extra_patches = random.sample(mid_candidates, 7)
         curr_patch_nums = sorted([1, 2] + extra_patches + [max_patch])
         
-        # Calculate the threshold as 90% of the total fixed patch sums (sum of squares)
-        fixed_threshold = sum(pn ** 2 for pn in self.fixed_patch_nums) * 0.9
+        # Calculate the threshold as 70% of the total fixed patch sums (sum of squares)
+        fixed_threshold = sum(pn ** 2 for pn in self.fixed_patch_nums) * 0.7
         total_lens = sum(pn ** 2 for pn in curr_patch_nums)
         
         # Randomly drop one element at a time from the middle
