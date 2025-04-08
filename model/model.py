@@ -225,15 +225,4 @@ class LitMultiscaleVQVAE(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=self.learning_rate)
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer, mode='min', factor=0.9, patience=10
-        )
-        return {
-            'optimizer': optimizer,
-            'lr_scheduler': {
-                'scheduler': scheduler,
-                'monitor': 'train_loss',
-                'interval': 'step',
-                'frequency': 100,
-            }
-        }
+        return optimizer
