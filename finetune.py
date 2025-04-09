@@ -85,7 +85,7 @@ def main():
     model = FinetuneLitMultiscaleVQVAE(
         model_args=model_args,
         patch_nums=patch_nums,
-        learning_rate=1e-5,
+        learning_rate=1e-4,
     )
 
     # Load pretrained model
