@@ -86,7 +86,7 @@ def main():
     )
 
     # Load pretrained model
-    checkpoint = torch.load(os.path.join(".pretrained", "pretrained_model.ckpt"))
+    checkpoint = torch.load(os.path.join(".",".pretrained", "pretrained_model.ckpt"))
     model.load_state_dict(checkpoint['state_dict'], strict=False)
 
     logger = TensorBoardLogger(".tensorboard", name="finetune_multiscale_vqvae_q8")
