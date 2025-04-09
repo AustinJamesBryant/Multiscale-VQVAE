@@ -259,13 +259,16 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
         target_size = x_norm.shape[-2:]
         
         recon_loss = 0.0
+        recon_mse_loss = 0.0
         for recon in recons:
             # Resize the reconstruction and convert to [-1, 1]
             recon_up = F.interpolate(recon, size=target_size, mode='bicubic')
             recon_up_norm = recon_up * 2.0 - 1.0
             lpips_loss = self.lpips_fn(recon_up_norm, x_norm)
+            recon_mse_loss += F.mse_loss(recon_up, x)
             recon_loss += lpips_loss.mean()
         recon_loss /= len(recons)
+        recon_mse_loss /= len(recons)
 
         # Process quantization-related differences
         processed_diff = []
@@ -287,7 +290,8 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
 
         # Log metrics
         self.log("train_loss", loss, prog_bar=True)
-        self.log("train_recon_loss", recon_loss, prog_bar=True)
+        self.log("train_recon_mse_loss", recon_mse_loss, prog_bar=True)
+        self.log("train_recon_lpips_loss", recon_loss, prog_bar=True)
         self.log("train_quant_loss", quant_loss, prog_bar=True)
         current_lr = self.trainer.optimizers[0].param_groups[0]["lr"]
         self.log("learning_rate", current_lr, prog_bar=True)
@@ -304,13 +308,16 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
         target_size = x_norm.shape[-2:]
         
         recon_loss = 0.0
+        recon_mse_loss = 0.0
         for recon in recons:
             # Resize the reconstruction and convert to [-1, 1]
             recon_up = F.interpolate(recon, size=target_size, mode='bicubic')
             recon_up_norm = recon_up * 2.0 - 1.0
             lpips_loss = self.lpips_fn(recon_up_norm, x_norm)
+            recon_mse_loss += F.mse_loss(recon_up, x)
             recon_loss += lpips_loss.mean()
         recon_loss /= len(recons)
+        recon_mse_loss /= len(recons)
 
         # Process quantization-related differences
         processed_diff = []
@@ -332,7 +339,8 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
 
         # Log metrics
         self.log("val_loss", loss, prog_bar=True)
-        self.log("val_recon_loss", recon_loss, prog_bar=True)
+        self.log("val_recon_mse_loss", recon_mse_loss, prog_bar=True)
+        self.log("val_recon_lpips_loss", recon_loss, prog_bar=True)
         self.log("val_quant_loss", quant_loss, prog_bar=True)
         
         return loss
