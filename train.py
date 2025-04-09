@@ -94,6 +94,7 @@ def main():
                 z_channels=32,
                 dropout_p=0.0,
             )
+            batch_size = 8
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 5:
             # Medium 2
@@ -109,6 +110,7 @@ def main():
                 z_channels=64,
                 dropout_p=0.0,
             )
+            batch_size = 8
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 6:
             # Medium 3
@@ -124,6 +126,7 @@ def main():
                 z_channels=128,
                 dropout_p=0.0,
             )
+            batch_size = 8
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 7:
             # Medium 4
@@ -139,6 +142,7 @@ def main():
                 z_channels=256,
                 dropout_p=0.0,
             )
+            batch_size = 8
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
         case 8:
             # Large 1
