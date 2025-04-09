@@ -286,7 +286,7 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
             else torch.tensor(0.0, device=x.device)
         )
 
-        loss = recon_loss + quant_loss
+        loss = recon_loss + recon_mse_loss + quant_loss
 
         # Log metrics
         self.log("train_loss", loss, prog_bar=True)
@@ -335,7 +335,7 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
             else torch.tensor(0.0, device=x.device)
         )
 
-        loss = recon_loss + quant_loss
+        loss = recon_loss + recon_mse_loss + quant_loss
 
         # Log metrics
         self.log("val_loss", loss, prog_bar=True)
