@@ -10,7 +10,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import pytorch_lightning as pl
-import lpips
+from torchmetrics.image.lpip import LearnedPerceptualImagePatchSimilarity
 from .modules import Encoder, VectorQuantizer, Decoder
 
 
@@ -211,10 +211,7 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
         self.fixed_patch_nums = patch_nums
 
         # Initialize the LPIPS module and freeze its weights
-        self.lpips_fn = lpips.LPIPS(net='vgg')
-        self.lpips_fn.eval()
-        for param in self.lpips_fn.parameters():
-            param.requires_grad = False
+        self.lpips_fn = LearnedPerceptualImagePatchSimilarity(net_type='vgg')
 
     def gen_curr_patch_nums(self):
         max_patch = self.fixed_patch_nums[-1]
@@ -302,7 +299,7 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
         x, _ = batch
 
         # Convert the input from [0, 1] to [-1, 1]
-        x_norm = x * 2.0 - 1.0
+        x_norm = (x * 2.0) - 1.0
 
         recons, diff_list = self.vqvae(x, v_patch_nums=self.fixed_patch_nums)
         target_size = x_norm.shape[-2:]
@@ -312,7 +309,7 @@ class FinetuneLitMultiscaleVQVAE(pl.LightningModule):
         for recon in recons:
             # Resize the reconstruction and convert to [-1, 1]
             recon_up = F.interpolate(recon, size=target_size, mode='bicubic')
-            recon_up_norm = recon_up * 2.0 - 1.0
+            recon_up_norm = (recon_up * 2.0) - 1.0
             lpips_loss = self.lpips_fn(recon_up_norm, x_norm)
             recon_mse_loss += F.mse_loss(recon_up, x)
             recon_loss += lpips_loss.mean()
