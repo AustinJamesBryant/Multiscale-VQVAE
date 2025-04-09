@@ -37,6 +37,8 @@ def main():
                 dropout_p=0.0,
             )
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
+            batch_size = 8
+            every_n_train_steps = 2000
         case 1:
             # Medium 3
             model_args = ModelArgs(
@@ -51,8 +53,9 @@ def main():
                 z_channels=128,
                 dropout_p=0.0,
             )
-            batch_size = 8
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
+            batch_size = 8
+            every_n_train_steps = 2000
         case 2:
             # Large 4
             model_args = ModelArgs(
