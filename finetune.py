@@ -54,7 +54,7 @@ def main():
                 dropout_p=0.0,
             )
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
-            batch_size = 4
+            batch_size = 8
             every_n_train_steps = 4000
         case 2:
             # Large 4
@@ -71,7 +71,7 @@ def main():
                 dropout_p=0.0,
             )
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
-            batch_size = 4
+            batch_size = 8
             every_n_train_steps = 4000
         case _:
             print("Invalid config argument!")
