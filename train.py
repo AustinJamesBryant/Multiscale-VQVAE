@@ -7,6 +7,8 @@ import argparse
 from data.PD12M import PD12MDataModule
 from model.model import ModelArgs, LitMultiscaleVQVAE
 
+dirpath="checkpoints_q8"
+
 def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description='Train the model with a configuration setting.')
@@ -216,6 +218,38 @@ def main():
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
             batch_size = 8
             every_n_train_steps = 2000
+        case 12:
+            # Small 1_2
+            model_args = ModelArgs(
+                codebook_size=16384*2,
+                codebook_embed_dim=8,
+                codebook_l2_norm=True,
+                codebook_show_usage=True,
+                commit_loss_beta=0.25,
+                entropy_loss_ratio=0.0,
+                encoder_ch_mult=[1, 2, 2, 4],
+                decoder_ch_mult=[1, 2, 2, 4],
+                z_channels=32,
+                dropout_p=0.0,
+            )
+            patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
+            dirpath="checkpoints_q8_8_32k"
+        case 13:
+                # Small 1_3
+                model_args = ModelArgs(
+                    codebook_size=16384*4,
+                    codebook_embed_dim=8,
+                    codebook_l2_norm=True,
+                    codebook_show_usage=True,
+                    commit_loss_beta=0.25,
+                    entropy_loss_ratio=0.0,
+                    encoder_ch_mult=[1, 2, 2, 4],
+                    decoder_ch_mult=[1, 2, 2, 4],
+                    z_channels=32,
+                    dropout_p=0.0,
+                )
+                patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
+                dirpath="checkpoints_q8_8_64k"
         case _:
             print("Invalid config argument!")
             exit(1)
@@ -234,7 +268,7 @@ def main():
     logger = TensorBoardLogger(".tensorboard", name="multiscale_vqvae_q8")
 
     checkpoint_callback = ModelCheckpoint(
-        dirpath="checkpoints_q8",
+        dirpath=dirpath,
         filename="model-{epoch:02d}-{step:08d}",
         every_n_train_steps=every_n_train_steps,
         save_top_k=-1
