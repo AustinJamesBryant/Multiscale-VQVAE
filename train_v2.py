@@ -39,6 +39,7 @@ def main():
             patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
             dirpath="checkpoints_q8_16_64k"
             every_n_train_steps = 2000
+            batch_size = 8
         case 1:
                 # Small 1_3
                 model_args = ModelArgs(
@@ -56,6 +57,7 @@ def main():
                 patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
                 dirpath="checkpoints_q8_medium_32_64k"
                 every_n_train_steps = 2000
+                batch_size = 8
         case _:
             print("Invalid config argument!")
             exit(1)
