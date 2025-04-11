@@ -48,13 +48,13 @@ def main():
                     codebook_show_usage=True,
                     commit_loss_beta=0.25,
                     entropy_loss_ratio=0.0,
-                    encoder_ch_mult=[1, 2, 2, 4],
-                    decoder_ch_mult=[1, 2, 2, 4],
+                    encoder_ch_mult=[1, 2, 4, 4],
+                    decoder_ch_mult=[1, 2, 4, 4],
                     z_channels=32,
                     dropout_p=0.0,
                 )
                 patch_nums = (1, 2, 4, 6, 8, 10, 16, 24, 32)
-                dirpath="checkpoints_q8_32_64k"
+                dirpath="checkpoints_q8_medium_32_64k"
                 every_n_train_steps = 2000
         case _:
             print("Invalid config argument!")
